@@ -1,6 +1,6 @@
 # MySqlTableComparer
-a tool to compare the mysql table different
+a tool to compare the mysql table structure different
 
-对比mysql表的工具
+对比mysql表结构的工具
 
 just for fun

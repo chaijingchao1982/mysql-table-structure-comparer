@@ -1,4 +1,4 @@
-package com.cjc.tools.mysql.tablecompare;
+package com.cjc.tablecomparer;
 
 /**
  * @author cjc

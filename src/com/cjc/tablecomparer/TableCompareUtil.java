@@ -1,4 +1,4 @@
-package com.cjc.tools.mysql.tablecompare;
+package com.cjc.tablecomparer;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author cjc
  * @date Nov 26, 2018
-*/
+ */
 public class TableCompareUtil {
 
 	private static final String TAB = "    ";
@@ -105,20 +105,17 @@ public class TableCompareUtil {
 		}
 	}
 
-	private void dbInit(String url, String dbName, String config, String usrName,
-			String password, String[] tableNameArray, HashMap<String, HashSet<String>> map) {
+	private void dbInit(String url, String dbName, String config, String usrName, String password,
+			String[] tableNameArray, HashMap<String, HashSet<String>> map) {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
-			Connection conn = DriverManager
-					.getConnection("jdbc:mysql://" + url + "/" + dbName + "?" + config
-							+ "&user=" + usrName + "&password=" + password);
-
-			//获取表的信息
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://" + url + "/" + dbName + "?" + config + "&user=" + usrName + "&password=" + password);
 			DatabaseMetaData metaData = conn.getMetaData();
 			ResultSet tableRet = metaData.getTables(dbName, "%", "%", new String[] { "TABLE" });
 
-			//提取表名
+			// get the exist table name
 			HashSet<String> allExistTableNames = new HashSet<>();
 			while (tableRet.next()) {
 				String tableName = tableRet.getString("TABLE_NAME");
@@ -127,13 +124,12 @@ public class TableCompareUtil {
 
 			for (String tableName : tableNameArray) {
 				if (!allExistTableNames.contains(tableName)) {
-					//过滤不存在的表名
+					// filter the no exist table name
 					continue;
 				}
 
-				//System.out.println(tableName);
+				// System.out.println(tableName);
 				HashSet<String> set = new HashSet<>();
-				//提取表内的字段的名字和类型
 				ResultSet colRet = metaData.getColumns(dbName, "%", tableName, "%");
 				while (colRet.next()) {
 					String columnName = colRet.getString("COLUMN_NAME");
@@ -142,12 +138,12 @@ public class TableCompareUtil {
 					int digits = colRet.getInt("DECIMAL_DIGITS");
 					int nullable = colRet.getInt("NULLABLE");
 					final String KEY = columnName + " " + columnType + " " + dataSize + " " + digits + " " + nullable;
-					//System.out.println(KEY);
+					// System.out.println(KEY);
 					set.add(KEY);
 				}
 
 				map.put(tableName, set);
-				//System.out.println("----------------");
+				// System.out.println("----------------");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

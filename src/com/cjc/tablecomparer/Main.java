@@ -1,25 +1,17 @@
-package com.cjc.tools.mysql.tablecompare;
+package com.cjc.tablecomparer;
 
 /**
  * @author cjc
  * @date Jul 25, 2019
  */
-public class TableCompareMain {
+public class Main {
 
-	/** 需要比较的表 */
+	/** the table name which want to compare */
 	private static final String[] TABLE_NAME_ARRAY = { 
-			"cute_meet_game_battle_record", 
-			"cute_meet_game_client_info",
-			"cute_meet_game_prop", 
-			"cute_meet_game_user",
-
-			"cute_meet_game_block_game_order_201907", 
-			"cute_meet_game_bull_game_order_201907",
-			"cute_meet_game_crossroad_game_order_201907", 
-			"cute_meet_game_jump_game_order_201907",
-			"cute_meet_game_knife_game_order_201907", 
-			"cute_meet_game_ludo_game_order_201907",
-			"cute_meet_game_star_game_order_201907", };
+			"game_battle_record", 
+			"game_client_info", 
+			"game_prop",
+			"game_user", };
 
 	public static void main(String args[]) {
 		MySqlServerInfo db1 = new MySqlServerInfo();
